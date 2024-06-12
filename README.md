@@ -1,2 +1,2 @@
 # AME
-Additive and Multiplicative Effects network model
+Additive and Multiplicative Effects network model 
