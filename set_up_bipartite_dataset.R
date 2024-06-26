@@ -8,7 +8,7 @@ if (!require(gender)) {
   install.packages("gender")
 }
 library("gender")
-#install.packages("genderdata")
+#install.packages("genderdata") # works with R version 4.3.2
 library("genderdata")
 
 # Extract components from the dataset
@@ -35,6 +35,25 @@ time_frame_2013 <- which(years == 2013)
 
 # Filter the edgelist for the year 2013
 edgelist_2013 <- edgelist[edgelist[, 1] == time_frame_2013, ]
+length(unique(edgelist_2013$board)) # 45
+
+# Load the covariates for the companies
+covariates_company <- read.csv("companies_covariates.csv")
+covariates_company_df <- data.frame(
+  company_id = covariates_company$company_id,
+  company = covariates_company$company,
+  sector = covariates_company$sector,
+  revenue = covariates_company$revenue,
+  stringsAsFactors = FALSE
+)
+
+length(covariates_company$company_id) #34
+
+# Filter the edgelist for the companies in the covariates
+edgelist_2013 <- edgelist_2013 %>%
+  filter(board %in% covariates_company$company_id)
+
+length(unique(edgelist_2013$board)) # 34
 
 directors_2013 <- directors[directors$director_id %in% unique(edgelist_2013$director), ]
 companies_2013 <- companies[companies$company_id %in% unique(edgelist_2013$board), ]
@@ -51,7 +70,8 @@ companies_2013_df <- data.frame(
   company = companies_2013$company
 )
 
-unique_directors_2013 <- directors_2013$director
+
+unique_directors_2013 <- directors_2013_df$director
 
 # Gender Prediction
 directors_2013_with_gender <- data.frame(unique_directors_2013, stringsAsFactors = FALSE)
@@ -76,20 +96,20 @@ na_rows <- directors_2013_with_gender[is.na(directors_2013_with_gender$gender), 
 
 # Fill in the NA values for gender in the data frame
 directors_2013_with_gender$gender[1] <- "male"       # 1   Abdul-Jaleel Al-Khalifa
-directors_2013_with_gender$gender[26] <- "female"    # 26  Breege O'Donoghue
-directors_2013_with_gender$gender[27] <- "male"      # 27  Breffni Byrne
-directors_2013_with_gender$gender[39] <- "female"    # 39  Brid Horan
-directors_2013_with_gender$gender[88] <- "male"      # 88  Donard Patrick Thomas Gaynor
-directors_2013_with_gender$gender[107] <- "male"     # 107 Frits Beurskens
-directors_2013_with_gender$gender[114] <- "male"     # 114 Gearoid O'Dea
-directors_2013_with_gender$gender[129] <- "female"   # 129 Heather-Ann Mcsharry
-directors_2013_with_gender$gender[141] <- "male"     # 141 Irial Finan
-directors_2013_with_gender$gender[297] <- "female"   # 297 Sorca Caitriona Conroy
-directors_2013_with_gender$gender[324] <- "male"     # 324 Utz-Hellmuth Felcht
-directors_2013_with_gender$gender[325] <- "male"     # 325 Vakha Alvievich Sobraliev
+directors_2013_with_gender$gender[22] <- "female"    # 26  Breege O'Donoghue
+directors_2013_with_gender$gender[23] <- "male"      # 27  Breffni Byrne
+directors_2013_with_gender$gender[33] <- "female"    # 39  Brid Horan
+directors_2013_with_gender$gender[74] <- "male"      # 88  Donard Patrick Thomas Gaynor
+directors_2013_with_gender$gender[91] <- "male"     # 107 Frits Beurskens
+directors_2013_with_gender$gender[97] <- "male"     # 114 Gearoid O'Dea
+directors_2013_with_gender$gender[111] <- "female"   # 129 Heather-Ann Mcsharry
+directors_2013_with_gender$gender[122] <- "male"     # 141 Irial Finan
+#directors_2013_with_gender$gender[297] <- "female"   # 297 Sorca Caitriona Conroy
+directors_2013_with_gender$gender[274] <- "male"     # 324 Utz-Hellmuth Felcht
+directors_2013_with_gender$gender[275] <- "male"     # 325 Vakha Alvievich Sobraliev
 
 ## change gender for index 351 Yuri Ivanovich Radchenko
-directors_2013_with_gender$gender[335] <- "male"
+#directors_2013_with_gender$gender[335] <- "male"
 
 # Check again if there are any NA values
 na_rows <- directors_2013_with_gender[is.na(directors_2013_with_gender$gender), ]
@@ -99,13 +119,10 @@ directors_2013_with_gender
 # Add gender to directors_2013_df
 directors_2013_df["gender"] <- directors_2013_with_gender$gender
 
-#Create dummy variables Revenue and Sector for companies
-companies_2013_df["revenue"] <- sample(1000:10000, nrow(companies_2013_df), replace = TRUE)
-companies_2013_df["sector"] <- sample(c("Technology", "Entertainment", "Media", "Sports"), nrow(companies_2013_df), replace = TRUE)
-
 # Map indices to actual names
 director_map <- setNames(directors$director, directors$director_id)
 company_map <- setNames(companies$company, companies$company_id)
+
 
 bipartite_df_2013 <- expand.grid(
   director_id = unique(edgelist_2013$director),
@@ -115,7 +132,7 @@ bipartite_df_2013 <- expand.grid(
 
 bipartite_df_2013 <- bipartite_df_2013 %>%
   left_join(directors_2013_df, by = "director_id") %>%
-  left_join(companies_2013_df, by = "company_id")
+  left_join(covariates_company_df, by = "company_id")
 
 bipartite_df_2013$edge <- 0
 
@@ -137,29 +154,7 @@ bipartite_dataset <- data.frame(
   edge = bipartite_df_2013$edge
 )
 
-# Turn categorical variables into factors
-bipartite_dataset$gender <- as.factor(bipartite_dataset$gender)
-bipartite_dataset$sector <- as.factor(bipartite_dataset$sector)
-bipartite_dataset$edge <- as.factor(bipartite_dataset$edge)
-bipartite_dataset$director <- as.factor(bipartite_dataset$director)
-bipartite_dataset$company <- as.factor(bipartite_dataset$company)
+# Save the dataset
+write.csv(bipartite_dataset, "bipartite_dataset.csv", row.names = FALSE)
 
-# Fit the GAM model
-# Here, we assume edge is a binary response variable (0 or 1)
-# Using s() for smooth terms and factor() for categorical variables
-gam_model <- gam(edge ~ s(director_id, bs = "re") + s(company_id, bs = "re") + gender + sector + s(revenue),
-  data = bipartite_dataset,
-  family = binomial(link = "logit")  # Assuming a binary response
-)
-
-# Summarize the model
-summary(gam_model)
-
-# Include multiplicative effects
-
-gam_model <- gam(edge ~ s(director_id, bs = "re") + s(company_id, bs = "re") + gender + sector + revenue +
-  te(director_id, company_id, bs = c("re","re")), data = bipartite_dataset, family = binomial(link = "logit"))
-
-
-summary(gam_model)
 
