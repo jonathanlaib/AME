@@ -38,7 +38,7 @@ edgelist_2013 <- edgelist[edgelist[, 1] == time_frame_2013, ]
 length(unique(edgelist_2013$board)) # 45
 
 # Load the covariates for the companies
-covariates_company <- read.csv("companies_covariates.csv")
+covariates_company <- read.csv("data/companies_covariates.csv")
 covariates_company_df <- data.frame(
   company_id = covariates_company$company_id,
   company = covariates_company$company,
@@ -155,6 +155,6 @@ bipartite_dataset <- data.frame(
 )
 
 # Save the dataset
-write.csv(bipartite_dataset, "bipartite_dataset.csv", row.names = FALSE)
+write.csv(bipartite_dataset, "data/bipartite_dataset.csv", row.names = FALSE)
 
 

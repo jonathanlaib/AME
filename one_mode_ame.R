@@ -1,7 +1,7 @@
 library("amen")
 library("dplyr")
 
-bipartite_dataset <- read.csv("bipartite_dataset.csv")
+bipartite_dataset <- read.csv("data/bipartite_dataset.csv")
 
 length(unique(bipartite_dataset$company_id))
 length(unique(bipartite_dataset$director_id))
@@ -62,7 +62,7 @@ for (director in unique(connected_companies$director_id)) {
 
 diag(matrix) <- NA
 # Get the covariates for the companies
-covariates_company <- read.csv("companies_covariates.csv")
+covariates_company <- read.csv("data/companies_covariates.csv")
 
 covariates_company_df <- data.frame(
   company_id = covariates_company$company_id,

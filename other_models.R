@@ -5,7 +5,7 @@ library("gamm4")
 library("brms")
 library("galamm")
 
-bipartite_dataset <- read.csv("bipartite_dataset.csv")
+bipartite_dataset <- read.csv("data/bipartite_dataset.csv")
 # Turn categorical variables into factors
 length(unique(bipartite_dataset$company_id)) # 283
 bipartite_dataset$director_id <- as.factor(bipartite_dataset$director_id)

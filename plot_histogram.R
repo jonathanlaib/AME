@@ -2,7 +2,7 @@
 library(ggplot2)
 
 # Load the data
-data <- read.csv("bipartite_dataset.csv")
+data <- read.csv("data/bipartite_dataset.csv")
 
 
 data_filtered <- subset(data, edge == 1)
@@ -32,7 +32,7 @@ hist_directors <- ggplot(director_connections_df, aes(x = as.factor(Connections)
         panel.background = element_rect(fill = "white", color = "white"),
         plot.background = element_rect(fill = "white", color = "white"))
 
-ggsave("distribution_of_director_connections.png", plot = hist_directors, width = 5, height = 5, dpi=300)
+ggsave("Figures/distribution_of_director_connections.png", plot = hist_directors, width = 5, height = 5, dpi=300)
 
 
 hist_company <- ggplot(company_connections_df, aes(x = as.factor(Connections))) +
@@ -53,4 +53,4 @@ hist_company <- ggplot(company_connections_df, aes(x = as.factor(Connections))) 
         plot.background = element_rect(fill = "white", color = "white"))
 
 
-ggsave("distribution_of_company_connections.png", plot = hist_company, width = 8, height = 5, dpi= 300)
+ggsave("Figures/distribution_of_company_connections.png", plot = hist_company, width = 8, height = 5, dpi= 300)

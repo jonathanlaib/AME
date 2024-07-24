@@ -1,5 +1,5 @@
 ## Dataset Setup
-The dataset is prepared in `set_up_bipartite_dataset.R`. It modifies the Irish Directorates Dataset by incorporating the covariates: gender, sector, and company.
+The dataset is prepared in `set_up_bipartite_dataset.R`. It modifies the Irish Directorates Dataset by incorporating the covariates: gender, sector, and company. The csv file of the final dataset can be found in directory `data`.
 
 ## Bipartite Network Analysis
 The main analysis of the bipartite network is performed in `srrm_bipartite.R`. In this script, we fit a Generalized Additive Model (GAM) to our dataset to represent the properties of an SRRM.
@@ -10,13 +10,13 @@ We also transformed our dataset into a one-mode dataset to fit an AME in `one_mo
 
 ## Model Results
 
-Results from both models (GAM and AME) can be found in their respective R scripts and are also exported to text files for easier access and review.
+Results from both models (GAM and AME) can be found in their respective R scripts and are also exported to text files for easier access and review. The output is stored in directory `output`.
 
 ## Network Plots
-The plots of the network of the datasets are created in the `plot.R` file. These plots provide a visual representation of the dataset, showing the connections between directors and companies.
+The plots of the network of the datasets are created in the `plot.R` file. These plots provide a visual representation of the dataset, showing the connections between directors and companies. The respective figures can be found in directory `figures`.
 
 ## Degree Distribution Plots
-The plots for the degree distributions for both directors and companies are done in `plot_histogram.R`.
+The plots for the degree distributions for both directors and companies are done in `plot_histogram.R`. The respective figures can be found in directory `figures`.
 
 ## File Summary
 

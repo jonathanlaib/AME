@@ -1,7 +1,7 @@
 library("mgcv")
 library("dplyr")
 
-bipartite_dataset <- read.csv("bipartite_dataset.csv")
+bipartite_dataset <- read.csv("data/bipartite_dataset.csv")
 
 bipartite_dataset$director_id <- as.factor(bipartite_dataset$director_id)
 bipartite_dataset$company_id <- as.factor(bipartite_dataset$company_id)
@@ -17,7 +17,7 @@ srrm <- gam(edge ~ gender + revenue + sector + s(director_id, bs="re") + s(compa
              family=binomial(link="logit"), data=bipartite_dataset)
 
 
-sink("outputfile_SRRM.txt")
+sink("output/outputfile_SRRM.txt")
 
 summary(srrm)
 

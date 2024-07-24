@@ -1,6 +1,6 @@
 library(igraph)
 
-bipartite_dataset <- read.csv("bipartite_dataset.csv")
+bipartite_dataset <- read.csv("data/bipartite_dataset.csv")
 
 length(unique(bipartite_dataset$company_id))
 length(unique(bipartite_dataset$director_id))
@@ -44,7 +44,7 @@ par(mar = c(1, 1, 1, 1))  # Adjust as needed (bottom, left, top, right)
 plot(net, layout = layout_as_bipartite(net))
 plot(net)
 
-png("bipartite_network.png", width = 800, height = 600)
+png("Figures/bipartite_network.png", width = 800, height = 600)
 plot(net)
 dev.off()  # Close the PNG device
 
