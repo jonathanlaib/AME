@@ -1,5 +1,5 @@
 ## Dataset Setup
-The dataset is prepared in `set_upbipartite_dataset.R`. It modifies the Irish Directorates Dataset by incorporating the covariates: gender, sector, and company.
+The dataset is prepared in `set_up_bipartite_dataset.R`. It modifies the Irish Directorates Dataset by incorporating the covariates: gender, sector, and company.
 
 ## Bipartite Network Analysis
 The main analysis of the bipartite network is performed in `srrm_bipartite.R`. In this script, we fit a Generalized Additive Model (GAM) to our dataset to represent the properties of an SRRM.
