@@ -1,0 +1,32 @@
+
+Family: binomial 
+Link function: logit 
+
+Formula:
+edge ~ gender + revenue + sector + s(director_id, bs = "re") + 
+    s(company_id, bs = "re")
+
+Parametric coefficients:
+                               Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                  -3.017e+00  3.627e-01  -8.319   <2e-16 ***
+gendermale                    6.241e-04  1.880e-01   0.003   0.9974    
+revenue                      -1.189e-05  2.259e-05  -0.526   0.5987    
+sectorConsumer Cyclicals     -3.642e-01  3.887e-01  -0.937   0.3488    
+sectorConsumer Non-Cyclicals -3.161e-01  3.247e-01  -0.973   0.3303    
+sectorEnergy                 -6.921e-01  4.023e-01  -1.720   0.0854 .  
+sectorFinancial              -4.411e-01  3.617e-01  -1.220   0.2226    
+sectorHealthcare             -6.614e-01  5.904e-01  -1.120   0.2626    
+sectorIndustrial             -4.641e-01  3.709e-01  -1.251   0.2109    
+sectorTechnology             -1.078e+00  4.599e-01  -2.344   0.0191 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Approximate significance of smooth terms:
+                     edf Ref.df Chi.sq p-value   
+s(director_id)  0.002782    281   0.00 1.00000   
+s(company_id)  11.507623     25  22.72 0.00283 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+R-sq.(adj) =  0.0032   Deviance explained = 1.87%
+UBRE = -0.72872  Scale est. = 1         n = 9622

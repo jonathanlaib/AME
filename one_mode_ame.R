@@ -100,8 +100,6 @@ adj_matrix <- adj_matrix[, column_names]
 # Sort row names
 row_names <- c(rownames(merged_data))
 adj_matrix <- adj_matrix[row_names, ]
-#nrow <- nrow(adj_matrix)
-#adj_matrix <- matrix(as.integer(adj_matrix), nrow = nrow, ncol = nrow)
 
 
 # Create a one-hot encoding of the sector variable
@@ -125,11 +123,22 @@ x_cov <- as.matrix(merged_data_one_hot)
 set.seed(123)
 ame_fit <- ame(Y = adj_matrix, Xdyad = NULL, Xrow = x_cov, Xcol = x_cov, family = "bin", nscan=20000, R=2, symmetric = TRUE, nvar = TRUE)
 
+
+#sink("outputfile_AME_irish.txt")
+
 # Summarize the model results
 summary(ame_fit)
 
-# Plot the network
+#sink()
 
+
+# Plot the network
 plot(ame_fit)
 
-netplot(adj_matrix, plotnames= TRUE, lcol="green")
+#netplot(adj_matrix, plotnames= TRUE, lcol="blue", cex=0.6, pch=30)
+netplot(adj_matrix,X=NULL,xaxt="n",yaxt="n",xlab="",ylab="",
+                  lcol="gray",ncol="black",lwd=1,lty=1,pch=16,
+                  bty="n",plotnames=FALSE,seed=1,plot.iso=TRUE,
+                  directed=NULL,add=FALSE)
+
+
